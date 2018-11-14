@@ -13,12 +13,6 @@
         </el-form-item>
         <el-form-item label="">
           <img v-if="form.thumb" :src="form.thumb" class="pic">
-          <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
-            list-type="picture-card"
-            :before-upload="qiniuUpload">
-            <i class="el-icon-plus"></i>
-          </el-upload>
         </el-form-item>
         <el-form-item label="分类" size="mini">
           <el-radio-group v-model="form.category">
@@ -54,8 +48,6 @@ import Stackedit from 'stackedit-js'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
-import * as qiniu from 'qiniu-js'
-import { qiniuPrefix } from '@/utils/config'
 
 export default {
   name: 'article-detail',
@@ -91,47 +83,6 @@ export default {
     }
   },
   methods: {
-    qiniuUpload (file) {
-      const _this = this
-      const observer = {
-        next (res) {
-          // console.log(res)
-        },
-        error (err) {
-          console.log(err)
-        },
-        complete (res) {
-          _this.form.thumb = `${qiniuPrefix}${res.key}`
-        }
-      }
-
-      const putExtra = {
-        fname: file.name,
-        params: {},
-        mimeType: null
-      }
-
-      const config = {
-        region: qiniu.region.z0
-      }
-
-      const observable = qiniu.upload(new Blob([file]), Date.now(), this.uploadToken, putExtra, config)
-
-      observable.subscribe(observer)
-
-      return false
-    },
-    async getUploadToken () {
-      const res = await axios({
-        method: 'get',
-        url: '/api/qiniu/token'
-      })
-        .catch(err => {
-          this.$message.error(err.response.data)
-        })
-
-      this.uploadToken = res.data.result
-    },
     async edit () {
       const res = await axios({
         method: 'patch',
@@ -236,7 +187,6 @@ export default {
     }
   },
   mounted () {
-    this.getUploadToken()
     if (this.isEdit) {
       this.getArticle()
     }
