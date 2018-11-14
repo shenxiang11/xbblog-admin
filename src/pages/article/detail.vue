@@ -33,6 +33,12 @@
         <el-form-item label="内容">
           <el-input disabled type="textarea" v-model="form.content" @click.native="openEditor"></el-input>
         </el-form-item>
+        <el-form-item label="样式">
+          <el-input v-model="form.style" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="脚本">
+          <el-input v-model="form.script" type="textarea"></el-input>
+        </el-form-item>
         <el-form-item size="mini">
           <el-button type="primary" @click="create" v-if="!isEdit">立即创建</el-button>
           <el-button type="primary" @click="edit" v-if="isEdit">立即更新</el-button>
@@ -69,7 +75,6 @@ export default {
   },
   data () {
     return {
-      uploadToken: '',
       tags: [],
       form: {
         title: '',
@@ -78,7 +83,9 @@ export default {
         category: '',
         tag: [],
         state: 'draft',
-        content: ''
+        content: '',
+        style: '',
+        script: ''
       }
     }
   },
@@ -94,7 +101,9 @@ export default {
           category: this.form.category,
           tag: this.form.tag,
           state: this.form.state,
-          content: this.form.content
+          content: this.form.content,
+          style: this.form.style,
+          script: this.form.script
         }
       })
         .catch(err => {
@@ -116,7 +125,9 @@ export default {
           category: this.form.category,
           tag: this.form.tag,
           state: this.form.state,
-          content: this.form.content
+          content: this.form.content,
+          style: this.form.style,
+          script: this.form.script
         }
       })
         .catch(err => {
@@ -174,7 +185,9 @@ export default {
         category,
         tag,
         state,
-        content
+        content,
+        style,
+        script
       } = res.data.result
 
       this.form.title = title
@@ -184,6 +197,8 @@ export default {
       this.form.tag = tag.map(item => item._id)
       this.form.state = state
       this.form.content = content
+      this.form.style = style
+      this.form.script = script
     }
   },
   mounted () {
