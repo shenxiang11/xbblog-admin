@@ -11,7 +11,7 @@ const ArticleList = () => import('@/pages/article/list')
 const ArticleDetail = () => import('@/pages/article/detail')
 
 let router = new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: [
     {
       path: '/',

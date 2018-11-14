@@ -1,4 +1,6 @@
 module.exports = {
+  baseUrl: '/',
+  outputDir: 'xbblog-admin',
   devServer: {
     proxy: {
       '/api': {

@@ -12,6 +12,7 @@
           <el-input v-model="form.thumb"></el-input>
         </el-form-item>
         <el-form-item label="">
+          <img v-if="form.thumb" :src="form.thumb" class="pic">
           <el-upload
             action="https://jsonplaceholder.typicode.com/posts/"
             list-type="picture-card"
@@ -54,6 +55,7 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
 import * as qiniu from 'qiniu-js'
+import { qiniuPrefix } from '@/utils/config'
 
 export default {
   name: 'article-detail',
@@ -90,17 +92,16 @@ export default {
   },
   methods: {
     qiniuUpload (file) {
-      console.log(this.uploadToken)
-
+      const _this = this
       const observer = {
         next (res) {
-          console.log(res)
+          // console.log(res)
         },
         error (err) {
           console.log(err)
         },
         complete (res) {
-          console.log(res)
+          _this.form.thumb = `${qiniuPrefix}${res.key}`
         }
       }
 
@@ -247,4 +248,10 @@ export default {
 </script>
 
 <style lang="scss">
+.pic {
+  width: 178px;
+  height: 178px;
+  display: inline-block;
+  object-fit: contain;
+}
 </style>
