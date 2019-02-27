@@ -27,6 +27,13 @@
       </template>
       <el-menu-item index="/tag/list">列表</el-menu-item>
     </el-submenu>
+    <el-submenu index="/shared">
+      <template slot="title">
+        <i class="el-icon-setting"></i>
+        <span>好文分享</span>
+      </template>
+      <el-menu-item index="/shared/list">好文分享</el-menu-item>
+    </el-submenu>
   </el-menu>
 </template>
 

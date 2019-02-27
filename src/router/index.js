@@ -9,6 +9,7 @@ const Login = () => import('@/pages/login')
 const TagList = () => import('@/pages/tag/list')
 const ArticleList = () => import('@/pages/article/list')
 const ArticleDetail = () => import('@/pages/article/detail')
+const SharedList = () => import('@/pages/shared/list')
 
 let router = new Router({
   mode: 'history',
@@ -38,6 +39,16 @@ let router = new Router({
       name: 'TagList',
       component: TagList,
       beforeEnter: checkLogin
+    },
+    {
+      path: '/shared/list/:page',
+      name: 'SharedList',
+      component: SharedList,
+      beforeEnter: checkLogin
+    },
+    {
+      path: '/shared/list',
+      redirect: '/shared/list/1'
     },
     {
       path: '/article/list',
